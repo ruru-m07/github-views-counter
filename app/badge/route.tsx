@@ -1,7 +1,6 @@
 import { Redis } from "ioredis";
 import { NextRequest } from "next/server";
 import { ImageResponse } from "@vercel/og";
-import { headers } from "next/headers";
 
 const redis = new Redis({
   host: process.env.REDIS_HOST,
@@ -27,12 +26,16 @@ export async function GET(request: NextRequest) {
 
   const isDevelopment = process.env.NODE_ENV === "development";
 
-  const origin = headers().get('x-forwarded-host')
-
+  const origin = request.headers.get("origin");
   console.log("origin", origin);
   if (isDevelopment) {
     console.log("Allowing all origins in development");
-  } else if (origin !== "https://github.com") {
+  } else if (
+    origin !== "github.com" &&
+    origin !== "github-views-counter.vercel.app" &&
+    origin !== "camo.githubusercontent.com" &&
+    origin !== "githubusercontent.com"
+  ) {
     return Response.json(
       {
         error: "Invalid request origin",
