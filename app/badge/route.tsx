@@ -2,12 +2,15 @@ import { Redis } from "ioredis";
 import { NextRequest } from "next/server";
 import { ImageResponse } from "@vercel/og";
 
+export const revalidate = 1
+
 const redis = new Redis({
   host: process.env.REDIS_HOST,
   port: Number(process.env.REDIS_PORT),
   username: process.env.REDIS_USER,
   password: process.env.REDIS_PASSWORD,
 });
+
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
