@@ -2,9 +2,6 @@ import { Redis } from "ioredis";
 import { NextRequest } from "next/server";
 import { ImageResponse } from "@vercel/og";
 
-export const config = {
-  runtime: "edge",
-};
 
 const redis = new Redis({
   host: process.env.REDIS_HOST,
